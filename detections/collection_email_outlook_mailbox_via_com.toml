@@ -22,8 +22,6 @@ references = [
 ]
 
 risk_score = 47
-
-=======
 rule_id = "1dee0500-4aeb-44ca-b24b-4a285d7b6ba1"
 
 severity = "medium"
