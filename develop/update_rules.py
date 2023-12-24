@@ -4,14 +4,14 @@ import json
 import tomllib
 
 base_url = "http://10.0.2.15/api/detection_engine/rules"
-api_key = "b3psLWc0d0JfMkhIN3BjcXVMbE86T0JDS2YzRnlSWW1sLXdGYzNmS1gzdw=="
+api_key = os.environ['ELASTIC_KEY']
 headers = {
     'Content-type': 'application/json',
     'kbn-xsrf': 'true',
     'Authorization': 'ApiKey ' + api_key
 }
 
-for root, dirs, files in os.walk("C:\\Users\\nimantha\\Documents\\Detection Engineering\\customalerts\\Test"):
+for root, dirs, files in os.walk("detections/"):
     for file in files:
         if file.endswith(".toml"):
             full_path = os.path.join(root, file)
