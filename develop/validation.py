@@ -6,7 +6,7 @@ import os
   # alert = tomllib.load(toml)
              
 
-for root, dirs, files in os.walk("C:\\Users\\nimantha.deshappriya\\Documents\\Detection Engineering\\customalerts"):
+for root, dirs, files in os.walk("detections/"):
     for file in files:
         if file.endswith(".toml"):
            full_path = os.path.join(root, file)
