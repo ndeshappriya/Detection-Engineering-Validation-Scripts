@@ -1,15 +1,15 @@
 
-name: TOML/MITRE Validation
+name: All Detection To Elastic
 
 on:
   push:
-    path:
-      -  '**.toml'
   workflow_dispatch:
 
 jobs:
    toml-validation:
     runs-on: ubuntu-latest
+    env: 
+      ELASTIC_KEY: ${{  secretes.ELASTIC_KEY  }}
 
     steps:
      
@@ -18,5 +18,4 @@ jobs:
         with: 
            python-version: '3.11.4'
       - run: pip install requests
-      - run: python develop/validation.py
-      - run: python develop/mitre.py
+      - run: python develop/toml_to_json.py
