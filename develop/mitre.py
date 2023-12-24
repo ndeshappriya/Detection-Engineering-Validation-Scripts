@@ -1,6 +1,7 @@
 import requests
 import tomllib
 import os
+import sys
 
 url = "https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json"
 headers = {
@@ -9,6 +10,7 @@ headers = {
 
 mitreData = requests.get(url, headers=headers).json()
 mitreMapped = {}
+faliure = 0
 
 for obj in mitreData['objects']:
     tactics = []
@@ -80,10 +82,12 @@ for file in alert_data:
         # Check to ensure MITRE tactics exist
         if tactic not in mitre_tactic_list:
             print("The MITRE Tactic supplied does not exist: " + "\"" + tactic + "\"" + " in " + file)
+            faliure = 1
 
         # Check to make sure MITRE technique ID is valid
         if technique_id not in mitreMapped:
             print("The MITRE Technique ID supplied does not exist: " + "\"" + technique_id + "\"" + " in " + file)
+            faliure = 1
 
         # Check to see if MITRE ID + name combination is valid
         try:
@@ -91,6 +95,8 @@ for file in alert_data:
             alert_name = line['technique_name']
             if alert_name != mitre_name:
                 print("MITRE Technique ID and Name mismatch in " + file + " Expected: " + "\"" + mitre_name + "\"" + " Given: " + "\"" + alert_name + "\"")
+                faliure = 1
+
         except KeyError:
             pass
        # Check to see subTID + name combination is valid
@@ -101,6 +107,8 @@ for file in alert_data:
               alert_name = line['subtechnique_name']
               if alert_name != mitre_name:
                    print("MITRE Sub-Technique ID and Name mismatch in " + file + " Expected: " + "\"" + mitre_name + "\"" + " Given: " + "\"" + alert_name + "\"")
+                   faliure = 1
+
         except KeyError:
              pass
         # Check to see if the technique is deprecated. 
@@ -108,5 +116,10 @@ for file in alert_data:
         try: 
              if mitreMapped[technique_id]['deprecated'] == True:
                    print("Deprecated MITRE Technique ID: " + "\"" + technique_id + "\"" + "  in  " + file)
+                   faliure = 1
+
         except KeyError:
              pass
+        
+if faliure !=0:
+    sys.exit(1)

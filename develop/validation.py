@@ -4,8 +4,9 @@ import os
 
   # with open(full_path,"rb") as toml:
   # alert = tomllib.load(toml)
-             
 
+faliure = 0 
+    
 for root, dirs, files in os.walk("detections/"):
     for file in files:
         if file.endswith(".toml"):
@@ -36,5 +37,9 @@ for root, dirs, files in os.walk("detections/"):
 
                      if missing_fields:
                         print("The following fields do not exist in " + file + ":" + str(missing_fields))
+                        faliure = 1 
                      else: 
                         print("validation pass for: " + file)
+
+if faliure !=0:
+   sys.exit(1)
