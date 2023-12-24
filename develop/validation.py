@@ -1,3 +1,4 @@
+import requests
 import tomllib
 import sys
 import os
